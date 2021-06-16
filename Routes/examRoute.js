@@ -1,6 +1,9 @@
 
 const mongoose = require('mongoose');
 const express=require('express')
+const app=express()
+app.use(express.urlencoded({ extended: false }))
+app.use(express.json())
 const router=express.Router()
 const Exam = require('../models/exam');
 const user = require('../models/user');
@@ -19,10 +22,10 @@ const user = require('../models/user');
   router.get('/api/questions', async (req, res) => {
       try{
         const questions = await Exam.find({})
-        res.status(200).json(questions)
+        res.status(200).send(questions)
       }catch(error)
       {
-        return res.status(500).json({"error":error})
+        return res.status(500).send(error)
       }
 
   });
@@ -62,22 +65,21 @@ const user = require('../models/user');
   
 router.post('/api/createExam', async (req, res) => {
       console.log(req)
+      let exam
       for(const[key,value] of Object.entries(req.body))
       {
           console.log(value)
         const question = value.question;
         const options = value.options;
-        const exam = new Exam({
+         exam = await new Exam({
           question,
           options
         });
-        try {
-          await exam.save();
-          res.json({ status: 200, result: exam });
-        } catch (err) {
-            res.json({ status: 500, error: err });
-        }
+        
+          await exam.save()
+        
       }
+      res.send(exam)
    
   });
 

@@ -15,15 +15,14 @@ router.post('/user/signin',async (req,res)=>
         {
             // Creating new user
 
-            //  const user= await new User(req.body)
+             const user= await new User(req.body)
              await user.save()
              console.log("user saved")
                 if (!user) {
                   res.json({success:false, message:"Your account could not be saved. Error: ", err}) 
                 }else {
-                      res.statusCode = 200;
                       res.setHeader('Content-Type', 'application/json');
-                      res.json({success: true, status: 'Registration Successful!'});
+                      res.statusCode(200).send(user);
                 }
             
         }
@@ -34,7 +33,7 @@ router.post('/user/signin',async (req,res)=>
             console.log("user found"+req.body.email)
             if(user)
             {
-                res.status(404).send("Already existing account,Please login")
+                // res.status(404).send("Already existing account,Please login")
             }
         }  
 })
