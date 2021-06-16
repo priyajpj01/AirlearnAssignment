@@ -28,6 +28,7 @@ const user = require('../models/user');
   });
 
   // API to create question paper by a user
+  //first create then evaluate exam
 
   // Request JSON for below API
 //   [{

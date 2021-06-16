@@ -1,11 +1,12 @@
 const express=require('express')
 const User=require('../models/user')
-
 const router= new express.Router();
 
 // API for signup 
 //can be tested using postman
 //{"username":"xyz","email":"x@gmail.com","password":"123"}
+
+
 router.post('/user/signin',async (req,res)=>
 { 
 
@@ -14,7 +15,7 @@ router.post('/user/signin',async (req,res)=>
         {
             // Creating new user
 
-             const user= await new User(req.body)
+            //  const user= await new User(req.body)
              await user.save()
              console.log("user saved")
                 if (!user) {
