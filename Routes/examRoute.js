@@ -94,16 +94,15 @@ router.post('/api/createExam', async (req, res) => {
 // }
 // ]
   router.post('/api/attemptExam', async (req, res) => {
-let result
-
-  for(var[key1,value1] of Object.entries(req.body))
-  {
-      const response=await Exam.findOne({question:value1.question})
-      for(var[key2,value2] of Object.entries(response.options))
-      {
-         if(value2.option==value1.answer)
+let ans = req.body.map(async(value)=>
+{
+    const response=await Exam.findOne({question:value.question})
+    response.options.map(async(key)=>
+    {
+console.log(key)
+if(key.option==value.answer)
          {
-             if(value2.isCorrect==true)
+             if(key.isCorrect==true)
                  result=await user.findOneAndUpdate({username:"priya"},{$inc:{"marks":4}})
               else
               {
@@ -111,8 +110,9 @@ let result
 
               }
          }
-      }
-  }
+    })
+
+});
   try {
     const User=await user.findOne({username:"priya"})
     res.status(200).send(User)
