@@ -64,13 +64,11 @@ const user = require('../models/user');
 // }]
   
 router.post('/api/createExam', async (req, res) => {
-      console.log(req)
       let exam
-      for(const[key,value] of Object.entries(req.body))
-      {
-          console.log(value)
-        const question = value.question;
-        const options = value.options;
+req.body.map(async(value)=>
+{
+const question=value.question
+const options = value.options;
          exam = await new Exam({
           question,
           options
@@ -78,8 +76,8 @@ router.post('/api/createExam', async (req, res) => {
         
           await exam.save()
         
-      }
-      res.send(exam)
+      })
+      res.send("done")
    
   });
 
